@@ -2,26 +2,22 @@ from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
-class User:
-    def __init__(self, first_name, last_name):
-        self.firstname = first_name
-        self.lastname = last_name
-
-    def initials(self):
-        return "{}. {}.".format(self.firstname[0], self.lastname[0])
-
-
 @app.route('/')
 @app.route('/index')
-
 def index():
-    return render_template('index.html', title='It title in py-file',
-                           user=User('Sergey', 'A')
-                           )
+    return render_template('index.html')
 
 @app.route('/add')
 def add():
     return render_template('add.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def server_error():
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
