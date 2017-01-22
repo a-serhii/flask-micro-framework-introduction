@@ -1,11 +1,11 @@
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
-from logging import DEBUG
 
 app = Flask(__name__)
-app.logger.setLevel(DEBUG)
-
+app.config['SECRET_KEY'] = b'\x9cCp\xddMW\x04\xda\x08\xe1\xc5\xf3\xef{"\xd5!f\xbf\x8e\xf3\xd64!'
+# import os
+# os.urandom(24)
 bookmarks = []
 
 def store_bookmark(url):
@@ -26,6 +26,7 @@ def add():
         url = request.form['url']
         store_bookmark(url)
         app.logger.debug('stored url: ' + url)
+        flash("Stored bookmark: '{}'".format(url))
         return redirect(url_for('index'))
     return render_template('add.html')
 

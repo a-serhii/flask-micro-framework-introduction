@@ -153,7 +153,11 @@ nav a:hover {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+.flashes li{
+    list-style: none none;
+    background: orange;
+    padding-left: 10px;
+}
 
 
 
