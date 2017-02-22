@@ -12,8 +12,18 @@ Thermos -- Welcome!
         <p>Done thanks <a href="https://app.pluralsight.com/library/courses/flask-micro-framework-introduction/table-of-contents">pluralsight</a></p>
     </header>
     <section>
-        <h2>Article section h2</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat, tenetur, vero.</p>
+        <h2>Resently Added</h2>
+        {% if new_bookmarks %}
+        <ul>
+            {% for bm in new_bookmarks %}
+            <li>
+                {{ bm.user }} added <a href="{{ bm.url }}">{{ bm.url }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    No bookmarks yet!
+    {% endif %}
     </section>
     <section>
         <h2>Article section h2</h2>
