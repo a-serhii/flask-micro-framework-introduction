@@ -14,26 +14,15 @@ app.config['SECRET_KEY'] = b'\x9cCp\xddMW\x04\xda\x08\xe1\xc5\xf3\xef{"\xd5!f\xb
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'thermos.db')
 db = SQLAlchemy(app)
 
-bookmarks = []
 
-
-def store_bookmark(url, description):
-    bookmarks.append(dict(
-        url=url,
-        description=description,
-        user='reindert',
-        date=datetime.utcnow()
-    ))
-
-
-def new_bookmarks(num):
-    return sorted(bookmarks, key=lambda bm: bm['date'], reverse=True)[:num]
+from forms import BookmarkForm
+import models
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', new_bookmarks=new_bookmarks(5))
+    return render_template('index.html', new_bookmarks=models.Bookmark.newest(5))
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -42,7 +31,9 @@ def add():
     if form.validate_on_submit():
         url = form.url.data
         description = form.description.data
-        store_bookmark(url, description)
+        bm = models.Bookmark(url=url, description=description)
+        db.session.add(bm)
+        db.session.commit()
         flash("Stored bookmark: '{}'".format(description))
         return redirect(url_for('index'))
     return render_template('add.html', form=form)
