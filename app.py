@@ -19,6 +19,11 @@ from forms import BookmarkForm
 import models
 
 
+# Fake login
+def logged_in_user():
+    return models.User.query.filter_by(username="bob").first()
+
+
 @app.route('/')
 @app.route('/index')
 def index():
