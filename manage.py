@@ -1,7 +1,6 @@
 from app import app, db
 from flask_script import Manager, prompt_bool
 
-from app import db
 from models import User
 
 

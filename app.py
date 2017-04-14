@@ -36,8 +36,8 @@ def add():
     if form.validate_on_submit():
         url = form.url.data
         description = form.description.data
-        bm = models.Bookmark(url=url, description=description)
-        db.session.add(bm)
+        bm = models.Bookmark(user=logged_in_user(), url=url, description=description)
+        # db.session.add(bm)
         db.session.commit()
         flash("Stored bookmark: '{}'".format(description))
         return redirect(url_for('index'))
